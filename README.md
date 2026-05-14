@@ -1,26 +1,33 @@
 # Podcast API
 
-API simples para listar e filtrar episódios de podcasts em vídeo. O projeto foi criado com Node.js puro e TypeScript, sem Express ou outro framework HTTP, para demonstrar a construção manual de rotas, controllers, services e repositories.
+API desenvolvida durante um bootcamp da DIO com Node.js e TypeScript. O projeto lista e filtra episódios de podcasts em vídeo, usando o módulo HTTP nativo do Node, sem Express. A aplicação foi criada para praticar rotas, controllers, services, repositories e leitura de dados em um arquivo JSON local.
 
-## Sobre o Projeto
+## Sobre o projeto
 
-A ideia do sistema é centralizar episódios de diferentes podcasts e permitir que um cliente, como um app ou site, consulte esses episódios por meio de uma API REST.
+Este projeto simula uma pequena API REST para consulta de episódios de podcasts. A ideia é permitir que uma aplicação cliente, como um site ou app, consiga buscar todos os episódios cadastrados ou filtrar os resultados pelo nome do podcast.
 
-Atualmente a API possui duas funcionalidades principais:
+Os dados ficam armazenados em:
+
+```txt
+src/repositories/podcasts.json
+```
+
+## Funcionalidades
 
 - Listar todos os episódios cadastrados.
-- Filtrar episódios pelo nome do podcast.
+- Buscar episódios pelo nome do podcast.
+- Retornar respostas em formato JSON.
+- Organizar o código em camadas para facilitar manutenção e evolução.
 
-Os dados são lidos de um arquivo JSON local em `src/repositories/podcasts.json`.
-
-## Tecnologias Utilizadas
+## Tecnologias utilizadas
 
 - Node.js
 - TypeScript
-- TSX, para executar TypeScript em modo desenvolvimento
-- TSUP, para gerar a build JavaScript em `dist`
+- TSX
+- TSUP
+- HTTP nativo do Node.js
 
-## Estrutura do Projeto
+## Estrutura
 
 ```txt
 src/
@@ -45,36 +52,9 @@ src/
     status-code.ts
 ```
 
-## Como o Sistema Foi Criado
+## Como rodar
 
-O projeto foi organizado em camadas:
-
-- `server.ts`: cria o servidor HTTP usando o módulo nativo `http` do Node.js.
-- `app.ts`: recebe as requisições e direciona para o controller correto de acordo com a rota.
-- `routes.ts`: centraliza os caminhos da API.
-- `controllers`: recebem a requisição, chamam os services e devolvem a resposta HTTP.
-- `services`: aplicam a regra de negócio, como listar ou filtrar episódios.
-- `repositories`: acessam a fonte de dados, que neste projeto é o arquivo `podcasts.json`.
-- `models`: definem os tipos TypeScript usados pela aplicação.
-- `utils`: guardam constantes reutilizáveis, como status HTTP, métodos HTTP e content types.
-
-Essa separação deixa o projeto mais fácil de manter e evoluir. Por exemplo, futuramente o arquivo JSON pode ser substituído por um banco de dados sem precisar mudar toda a aplicação.
-
-## Requisitos
-
-- Node.js instalado
-- npm instalado
-
-O projeto foi verificado com:
-
-```bash
-node -v
-npm -v
-```
-
-## Instalação
-
-Clone o repositório e instale as dependências:
+Instale as dependências:
 
 ```bash
 npm install
@@ -86,51 +66,21 @@ Crie ou mantenha o arquivo `.env` na raiz do projeto:
 PORT=3333
 ```
 
-## Executando em Desenvolvimento
+Execute em modo desenvolvimento:
 
 ```bash
 npm run start:dev
 ```
 
-Servidor esperado:
-
-```txt
-servidor iniciado na porta 3333
-```
-
-Depois acesse:
-
-```txt
-http://localhost:3333/api/list
-```
-
-## Executando com Watch
-
-Use este comando para reiniciar automaticamente durante alterações no código:
+Se quiser rodar com reinício automático ao salvar alterações:
 
 ```bash
 npm run start:watch
 ```
 
-## Gerando Build
-
-```bash
-npm run dist
-```
-
-Esse comando gera os arquivos compilados na pasta `dist`.
-
-## Executando a Versão Compilada
-
-```bash
-npm run start:dist
-```
-
-Esse comando gera a build e executa o arquivo `dist/server.js`.
-
 ## Rotas da API
 
-### Listar Todos os Episódios
+### Listar episódios
 
 ```http
 GET /api/list
@@ -142,73 +92,8 @@ Exemplo:
 http://localhost:3333/api/list
 ```
 
-Resposta:
-
-```json
-[
-  {
-    "podcastName": "flow",
-    "episode": "CBUM - Flow #319",
-    "videoId": "pQSuQmUfS30",
-    "categories": ["saúde", "esporte", "bodybuilder"]
-  }
-]
-```
-
-### Filtrar por Nome do Podcast
+### Filtrar por podcast
 
 ```http
 GET /api/podcasts?p=flow
 ```
-
-Exemplo:
-
-```txt
-http://localhost:3333/api/podcasts?p=flow
-```
-
-Retorna somente os episódios em que `podcastName` é igual ao valor enviado no parâmetro `p`.
-
-## Exemplos de Teste
-
-Com o servidor rodando, teste no navegador, Postman, Insomnia ou terminal:
-
-```bash
-curl http://localhost:3333/api/list
-```
-
-```bash
-curl "http://localhost:3333/api/podcasts?p=flow"
-```
-
-## Scripts Disponíveis
-
-```json
-{
-  "start:dev": "tsx --env-file=.env src/server.ts",
-  "start:watch": "tsx watch --env-file=.env src/server.ts",
-  "dist": "tsup src",
-  "start:dist": "npm run dist && node --env-file=.env dist/server.js"
-}
-```
-
-## Status do Projeto
-
-Verificações realizadas:
-
-- Checagem TypeScript com `npx tsc --noEmit`.
-- Build com `npm run dist`.
-- Execução da API compilada com `node --env-file=.env dist/server.js`.
-- Teste da rota `/api/list`, retornando 4 episódios.
-- Teste da rota `/api/podcasts?p=flow`, retornando 3 episódios.
-- Teste da rota `/api/podcasts?p=venus`, retornando 1 episódio.
-
-## Possíveis Melhorias Futuras
-
-- Adicionar tratamento para rotas inexistentes com status `404`.
-- Adicionar validação para parâmetros de busca.
-- Corrigir ou padronizar nomes de arquivos e rotas, como `podscasts-controller.ts` e `ESPISODE`.
-- Substituir o JSON local por um banco de dados.
-- Criar testes automatizados.
-- Adicionar campos como `cover` e `link` aos episódios.
-
