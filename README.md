@@ -97,3 +97,9 @@ http://localhost:3333/api/list
 ```http
 GET /api/podcasts?p=flow
 ```
+
+## Feito por
+
+<a href="https://github.com/bebelle20092020j" target="_blank">
+  <img src="https://img.shields.io/badge/GitHub-Isabelle%20Macedo-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Isabelle Macedo">
+</a>
